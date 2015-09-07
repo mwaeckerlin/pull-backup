@@ -1,4 +1,4 @@
-.h1 Docker Image that Pulls Backups from a Remote Host
+# Docker Image that Pulls Backups from a Remote Host
 
 Configuration is through two environment variables:
 - `REMOTE` declares the remote site that has to be backed up in the form `user@host:/path/to/origin/`
