@@ -14,6 +14,7 @@ Please note, that your local network's DNS might not be available in the docker 
 When you start the docker container, it outputs the public ssh key to the docker logs. You need to append this to the remote user's `~/.ssh/authorized_keys` file.
 
 The key line looks somehow like this:
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCvwSsm0Qw8PSupDh+/pSp0lo339UuHizLC/+XPNv7IvI2yc732XPO5wFQKMUz1p+dCm5XHXcGJArn5gm+gEKQD+97LM53Y2aEsL2J39oKLxoc5V4me82vgb0p0j4+Qq7iMjaKa8z5kOUvG4zxBM1It/wdvxM35zq65J48Q3L4vdw== root@850fe0680855
+
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCvwSsm0Qw8PSupDh+/pSp0lo339UuHizLC/+XPNv7IvI2yc732XPO5wFQKMUz1p+dCm5XHXcGJArn5gm+gEKQD+97LM53Y2aEsL2J39oKLxoc5V4me82vgb0p0j4+Qq7iMjaKa8z5kOUvG4zxBM1It/wdvxM35zq65J48Q3L4vdw== root@850fe0680855
 
 When you start the container, it starts with an initial backup after one minute. Use that time to copy the public key to the user's `~/.ssh/authorized_keys` in the origin's host. If you need more time, set the environment variable `SLEEP` (in seconds).
