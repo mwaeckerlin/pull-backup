@@ -4,7 +4,7 @@ MAINTAINER mwaeckerlin
 ENV REMOTE ""
 ENV TIME "0 3 * * *"
 ENV SLEEP 60
-ENV RSYNC_OPTIONS "-aq"
+ENV RSYNC_OPTIONS "-aq --delete-before"
 VOLUME /backup
 VOLUME /root
 
@@ -24,7 +24,7 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     cat ~/.ssh/id_rsa.pub; \
     echo "-------------------------------------------------------------------------------------"; \
     touch /root/log; \
-    COMMAND='( echo "**** $(date) start backup of '${REMOTE}'"; rsync --delete-before '${RSYNC_OPTIONS}' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}"' /backup/ 2>&1 && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log'; \
+    COMMAND='( echo "**** $(date) start backup of '${REMOTE}'"; rsync '${RSYNC_OPTIONS}' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}"' /backup/ 2>&1 && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log'; \
     echo "$TIME root ${COMMAND}" > /etc/crontab; \
     echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}"; \
     sleep ${SLEEP}; \
