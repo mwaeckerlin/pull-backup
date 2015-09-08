@@ -9,7 +9,7 @@ The volumes are:
 - `/backup` the backup target
 - `/root` contains the file `log` with backup results and the directory `.ssh` with ssh keys
 
-Please note, that your local network's DNS might not be available in the docker container, so use IP addresse in that case-
+Please note, that your local network's DNS might not be available in the docker container, so use IP addresse in that case.
 
 When you start the docker container, it outputs the public ssh key to the docker logs. You need to append this to the remote user's `~/.ssh/authorized_keys` file.
 
