@@ -5,6 +5,7 @@ Configuration is through two environment variables:
 - `TIME` backup time in `cron` format, defaults to `0 3 * * *` (nightly at three o'clock)
 - `SLEEP` time in seconds before the initial backup starts (60s)
 - `RSYNC_OPTIONS` options passed to rsync, defaults to `-aq --delete-before` see `man rsync` for details
+- `KEYSIZE` ssh rsa key size, defaults to 4096
 
 The volumes are:
 - `/backup` the backup target

@@ -5,6 +5,7 @@ ENV REMOTE ""
 ENV TIME "0 3 * * *"
 ENV SLEEP 60
 ENV RSYNC_OPTIONS "-aq --delete-before"
+END KEYSIZE 4096
 VOLUME /backup
 VOLUME /root
 
@@ -15,7 +16,7 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     REMOTE_PATH=${REMOTE#*:}; \
     REMOTE_USER=${REMOTE_USER_HOST%@*}; \
     REMOTE_HOST=${REMOTE_USER_HOST#*@}; \
-    if ! test -f ~/.ssh/id_rsa.pub; then echo | ssh-keygen -qb 1024 -N ""; echo; fi; \
+    if ! test -f ~/.ssh/id_rsa.pub; then echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo; fi; \
     if ! test -f ~/.ssh/known_hosts; then ssh-keyscan -H ${REMOTE_HOST} > ~/.ssh/known_hosts; fi; \
     echo "Please append the following key (without the dashed-lines) to:"; \
     echo "host: ${REMOTE_HOST}"; \
