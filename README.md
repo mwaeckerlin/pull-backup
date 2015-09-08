@@ -4,6 +4,7 @@ Configuration is through two environment variables:
 - `REMOTE` declares the remote site that has to be backed up in the form `user@host:/path/to/origin/`
 - `TIME` backup time in `cron` format, defaults to `0 3 * * *` (nightly at three o'clock)
 - `SLEEP` time in seconds before the initial backup starts (60s)
+- `RSYNC_OPTIONS` options passed to rsync, defaults to `-aq` see `man rsync` for details
 
 The volumes are:
 - `/backup` the backup target
