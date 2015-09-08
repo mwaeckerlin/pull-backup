@@ -5,7 +5,7 @@ ENV REMOTE ""
 ENV TIME "0 3 * * *"
 ENV SLEEP 60
 ENV RSYNC_OPTIONS "-aq --delete-before"
-END KEYSIZE 4096
+ENV KEYSIZE 4096
 VOLUME /backup
 VOLUME /root
 
