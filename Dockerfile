@@ -16,8 +16,10 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     REMOTE_PATH=${REMOTE#*:}; \
     REMOTE_USER=${REMOTE_USER_HOST%@*}; \
     REMOTE_HOST=${REMOTE_USER_HOST#*@}; \
-    if ! test -f ~/.ssh/id_rsa.pub; then echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo; fi; \
-    if ! test -f ~/.ssh/known_hosts; then ssh-keyscan -H ${REMOTE_HOST} > ~/.ssh/known_hosts; fi; \
+    if ! test -f ~/.ssh/id_rsa.pub; then
+       echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo; \
+       ssh-keyscan -H ${REMOTE_HOST} >> ~/.ssh/known_hosts; \
+    fi; \
     echo "Please append the following key (without the dashed-lines) to:"; \
     echo "host: ${REMOTE_HOST}"; \
     echo "file: ~${REMOTE_USER}/.ssh/authorized_keys"; \
