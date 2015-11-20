@@ -11,6 +11,7 @@ RUN apt-get install -y openssh-client cron rsync
 RUN ln -sf /dev/stdout /root/log
 WORKDIR /backup
 CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/origin/"; exit 1; fi; \
+    test -e /root/log || ln -sf /dev/stdout /root/log; \
     REMOTE_USER_HOST=${REMOTE%%:*}; \
     REMOTE_PATH=${REMOTE#*:}; \
     REMOTE_USER=${REMOTE_USER_HOST%@*}; \
