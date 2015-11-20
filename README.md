@@ -42,7 +42,7 @@ Copy the key to path `~myname/.ssh/authorized_keys` on host `192.168.0.99` withi
 
 See what actually happens in the backup log:
 
-    docker exec -it pull-backup-something tail -f /root/log
+    docker logs -f pull-backup-something
 
 Afert a while (see logs), local path `/var/something-copy` contains a backup of `/var/something` on host `192.168.0.99`.
 

@@ -17,7 +17,7 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     REMOTE_PATH=${REMOTE#*:}; \
     REMOTE_USER=${REMOTE_USER_HOST%@*}; \
     REMOTE_HOST=${REMOTE_USER_HOST#*@}; \
-    if ! test -f ~/.ssh/id_rsa.pub; then
+    if ! test -f ~/.ssh/id_rsa.pub; then \
        echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo; \
        ssh-keyscan -H ${REMOTE_HOST} >> ~/.ssh/known_hosts; \
     fi; \
