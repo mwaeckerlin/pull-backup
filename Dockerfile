@@ -30,7 +30,7 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     echo "$TIME root ${COMMAND}" > /etc/crontab; \
     echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}"; \
     sleep ${SLEEP}; \
-    echo "Backup command is: ${COMMAND"; \
+    echo "Backup command is: ${COMMAND}"; \
     echo "starting first backup"; \
     while ! bash -c "${COMMAND}"; do echo "**** first backup failed, retry..."; done; \
     echo "first backup done, entering cron mode"; \
