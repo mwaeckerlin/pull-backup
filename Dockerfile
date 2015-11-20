@@ -6,8 +6,6 @@ ENV TIME "0 3 * * *"
 ENV SLEEP 60
 ENV RSYNC_OPTIONS "-axqe ssh --delete-before"
 ENV KEYSIZE 4096
-VOLUME /backup
-VOLUME /root
 
 RUN apt-get install -y openssh-client cron rsync
 RUN ln -sf /dev/stdout /root/log
@@ -32,7 +30,11 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     echo "$TIME root ${COMMAND}" > /etc/crontab; \
     echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}"; \
     sleep ${SLEEP}; \
+    echo "Backup command is: ${COMMAND"
     echo "starting first backup"; \
-    bash -c "${COMMAND}"; \
+    while ! bash -c "${COMMAND}"; do echo "**** first backup failed, retry..."; done; \
     echo "first backup done, entering cron mode"; \
     cron -fL7
+
+VOLUME /backup
+VOLUME /root
