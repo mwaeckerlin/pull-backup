@@ -4,12 +4,13 @@ MAINTAINER mwaeckerlin
 ENV REMOTE ""
 ENV TIME "0 3 * * *"
 ENV SLEEP 60
-ENV RSYNC_OPTIONS "-aq --delete-before"
+ENV RSYNC_OPTIONS "-axqe ssh --delete-before"
 ENV KEYSIZE 4096
 VOLUME /backup
 VOLUME /root
 
 RUN apt-get install -y openssh-client cron rsync
+RUN ln -sf /dev/stdout /root/log
 WORKDIR /backup
 CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/origin/"; exit 1; fi; \
     REMOTE_USER_HOST=${REMOTE%%:*}; \
@@ -27,7 +28,7 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     cat ~/.ssh/id_rsa.pub; \
     echo "-------------------------------------------------------------------------------------"; \
     touch /root/log; \
-    COMMAND='( echo "**** $(date) start backup of '${REMOTE}'"; rsync '${RSYNC_OPTIONS}' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}"' /backup/ 2>&1 && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log'; \
+    COMMAND='( echo "**** $(date) start backup of '${REMOTE}'"; rsync '${RSYNC_OPTIONS}' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}/"' /backup/ 2>&1 && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log'; \
     echo "$TIME root ${COMMAND}" > /etc/crontab; \
     echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}"; \
     sleep ${SLEEP}; \
