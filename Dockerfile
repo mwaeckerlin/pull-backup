@@ -26,14 +26,14 @@ CMD if test -z "$REMOTE"; then echo "set REMOTE variable as user@host:/path/to/o
     echo "-------------------------------------------------------------------------------------"; \
     ! test -e /root/log || rm /root/log; \
     ln -sf /dev/stdout /root/log; \
-    COMMAND='( echo "**** $(date) start backup of '${REMOTE}'"; rsync '${RSYNC_OPTIONS}' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}/"' /backup/ 2>&1 && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log'; \
-    echo "$TIME root ${COMMAND}" > /etc/crontab; \
+    COMMAND='rsync '"${RSYNC_OPTIONS}"' -e "ssh -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}/"' /backup/ 2>&1'; \
+    echo "$TIME root "'( echo "**** $(date) start backup of '${REMOTE}'"; '"${COMMAND}"' && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log' > /etc/crontab; \
     echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}"; \
     sleep ${SLEEP}; \
     echo "Backup command is: ${COMMAND}"; \
     echo "starting first backup"; \
     while ! bash -c "${COMMAND}"; do echo "**** first backup failed, retry..."; done; \
-    echo "first backup done, entering cron mode"; \
+    echo "++++ first backup done, entering cron mode"; \
     cron -fL7
 
 VOLUME /backup
