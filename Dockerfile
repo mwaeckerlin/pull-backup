@@ -8,7 +8,7 @@ ENV SLEEP 60
 ENV RSYNC_OPTIONS "-axqe ssh --delete-before"
 ENV KEYSIZE 4096
 
-RUN qpt-get update
+RUN apt-get update
 RUN apt-get install -y openssh-client cron rsync
 WORKDIR /backup
 ADD start.sh /start.sh
