@@ -56,8 +56,10 @@ It can easily be used in conjunciton with mwaeckerlin/ssh, e.g. to backup the su
 
 First, on the backup target machine, start a pull-backup container, e.g.:
 
+    docker run -d --name svn-backup-volume mwaeckerlin/pull-backup sleep infinity
     docker run -d --name svn-backup-pull \
-               -e REMOTE="root@pulsar:/svn" \
+               --volumes-from svn-backup-volume \
+               -e REMOTE="root@host:/svn" \
                -e PORT="200" \
                mwaeckerlin/pull-backup \
     && docker logs -f svn-backup-pull
