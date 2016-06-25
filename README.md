@@ -49,3 +49,22 @@ Afert a while (see logs), local path `/var/something-copy` contains a backup of 
 That's all. The synchronization is repeated each day a 3 o'clock (UTC) in the morning.
 
 The same command can be started on several computers to have more than one backup if your data is importand.
+
+# Backup from remote Docker
+
+It can easily be used in conjunciton with mwaeckerlin/ssh, e.g. to backup the subversion volume:
+
+First, on the backup target machine, start a pull-backup container, e.g.:
+
+    docker run -d --name svn-backup-pull \
+               -e REMOTE="root@pulsar:/svn" \
+               -e PORT="200" \
+               mwaeckerlin/pull-backup \
+    && docker logs -f svn-backup-pull
+
+When you see the key, copy it and enter it, when you start the ssh server on the backup source machine, e.g,:
+
+    docker run -d --name svn-backup-provider \
+               -p 200:22 --volumes-from svn-volume \
+               -e SSHKEY="ssh-rsa AAAAADAQAB…bL4jsnRWr5p2Q== root@f76c20a0e0cf" \
+               mwaeckerlin/ssh
