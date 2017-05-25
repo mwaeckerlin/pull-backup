@@ -4,7 +4,7 @@ if test -z "$REMOTE" -a \( -z "${REMOTE_USER}" -o -z "${REMOTE_HOST}" -o -z "${R
     echo "set REMOTE variable as user@host:/path/to/origin/";
     exit 1;
 fi;
-REMOTE=${REMOTE:-${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH// / ${REMOTE:USER}@${REMOTE_HOST}:}}
+REMOTE=${REMOTE:-${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH// / ${REMOTE_USER}@${REMOTE_HOST}:}}
 REMOTE_USER_HOST=${REMOTE%%:*}
 REMOTE_USER=${REMOTE_USER:-${REMOTE_USER_HOST%@*}}
 REMOTE_HOST=${REMOTE_HOST:-${REMOTE_USER_HOST#*@}}
