@@ -6,8 +6,8 @@ if test -z "$REMOTE" -a \( -z "${REMOTE_USER}" -o -z "${REMOTE_HOST}" -o -z "${R
 fi;
 REMOTE=${REMOTE:-${REMOTE:USER}@${REMOTE_HOST}:${REMOTE_PATH// / ${REMOTE:USER}@${REMOTE_HOST}}}
 REMOTE_USER_HOST=${REMOTE%%:*}
-REMOTE_USER=${REMOTE_USER_HOST%@*}
-REMOTE_HOST=${REMOTE_USER_HOST#*@}
+REMOTE_USER=${REMOTE_USER:-${REMOTE_USER_HOST%@*}}
+REMOTE_HOST=${REMOTE_HOST:-${REMOTE_USER_HOST#*@}}
 if ! test -f ~/.ssh/id_rsa.pub; then
     echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo;
     ssh-keyscan -H ${REMOTE_HOST} >> ~/.ssh/known_hosts;
