@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if test -z "$REMOTE"; then
+if test -z "$REMOTE" -a \( -z "${REMOTE_USER}" -o -z "${REMOTE_HOST}" -o -z "${REMOTE_PATH}" \); then
     echo "set REMOTE variable as user@host:/path/to/origin/";
     exit 1;
 fi;
-REMOTE_USER_HOST=${REMOTE%%:*};
-REMOTE_PATH=${REMOTE#*:};
-REMOTE_USER=${REMOTE_USER_HOST%@*};
-REMOTE_HOST=${REMOTE_USER_HOST#*@};
+REMOTE=${REMOTE:-${REMOTE:USER}@${REMOTE_HOST}:${REMOTE_PATH// / ${REMOTE:USER}@${REMOTE_HOST}}}
+REMOTE_USER_HOST=${REMOTE%%:*}
+REMOTE_USER=${REMOTE_USER_HOST%@*}
+REMOTE_HOST=${REMOTE_USER_HOST#*@}
 if ! test -f ~/.ssh/id_rsa.pub; then
     echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo;
     ssh-keyscan -H ${REMOTE_HOST} >> ~/.ssh/known_hosts;

@@ -25,6 +25,8 @@ Example:
 
 Backup the data below path `/var/something` on host `192.168.0.99` and access it with user account `myname`. It is more secure, if user `myname` has only read access to `/var/something` and cannot access other paths on `192.168.0.99`. The backup is copied to the host where `docker` runs, there it is stored in path `/var/something-copy`.
 
+You can either specify `REMOTE` with one or more remote addresses tobackup, such as `-e REMOTE=myname@192.168.0.99:/var/something myname@192.168.0.99:/var/lib/other`, or you can seperate the definitions in: `-e REMOTE_USER=myname`, `-e REMOTE_HOST=192.168.99` and `-e REMOTE_PATH=/var/something /var/lib/other`. Please note, that for rsync, the trailing slash in a path has a meaning.
+
 Start the backup process on the target computer:
 
     docker run -d --name pull-backup-something \
