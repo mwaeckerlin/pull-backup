@@ -22,10 +22,12 @@ echo "--------------------------------------------------------------------------
 ln -sf /proc/self/fd/1 /root/log;
 COMMAND='rsync '"${RSYNC_OPTIONS}"' -e "ssh -p '"${PORT}"' -o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no" '"${REMOTE}"' /backup/ 2>&1';
 echo "$TIME root "'( echo "**** $(date) start backup of '${REMOTE}'"; '"${COMMAND}"' && echo "     $(date) success." || echo "     $(date) failed." ) >> /root/log' > /etc/crontab;
-echo "waiting ${SLEEP} seconds before first backup, copy above key to ${REMOTE_USER_HOST}";
-sleep ${SLEEP};
+echo "copy above key to ${REMOTE_USER_HOST}";
 echo "Backup command is: ${COMMAND}";
 echo "starting first backup";
-while ! bash -c "${COMMAND}"; do echo "**** first backup failed, retry..."; done;
+while ! bash -c "${COMMAND}"; do
+    echo "**** first backup failed, waiting ${SLEEP} seconds before retry ...";
+    sleep ${SLEEP};
+done;
 echo "++++ first backup done, entering cron mode";
 cron -fL7
